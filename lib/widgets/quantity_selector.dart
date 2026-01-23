@@ -16,18 +16,14 @@ class QuantitySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Decrement Button
         IconButton(
-            icon: const Icon(Icons.remove_circle_outline),
-            // Show grey color when quantity is smaller than 1
-            color: quantity > 1
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onSurface,
-            // Does not call any function when quantity is smaller than 1
-            onPressed: quantity > 1 ? onDecrement : null
+          icon: const Icon(Icons.remove_circle_outline),
+          color: quantity > 1
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurface,
+          onPressed: quantity > 1 ? onDecrement : null,
         ),
 
-        // Quantity Display
         Text(
           quantity.toString(),
           style: TextStyle(
@@ -37,14 +33,12 @@ class QuantitySelector extends StatelessWidget {
           ),
         ),
 
-        // Increment Button
         IconButton(
-            icon: const Icon(Icons.add_circle_outline),
-            color: Theme.of(context).colorScheme.primary,
-            onPressed: onIncrement
+          icon: const Icon(Icons.add_circle_outline),
+          color: Theme.of(context).colorScheme.primary,
+          onPressed: onIncrement,
         ),
       ],
     );
   }
-
 }

@@ -4,12 +4,7 @@ import 'package:workshop_shopping_app/pages/cart_page.dart';
 import 'package:workshop_shopping_app/pages/home_page.dart';
 import 'package:workshop_shopping_app/pages/products_page.dart';
 
-List<Widget> _pages = [
-  HomePage(),
-  ProductsPage(),
-  CartPage(),
-  AccountPage(),
-];
+List<Widget> _pages = [HomePage(), ProductsPage(), CartPage(), AccountPage()];
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
@@ -35,12 +30,13 @@ class _BottomNavBarState extends State<BottomNavBar> {
           });
         },
 
-
-
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.shop), label: 'Products'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart',),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
         ],
       ),

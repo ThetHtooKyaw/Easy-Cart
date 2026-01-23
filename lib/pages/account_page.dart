@@ -1,83 +1,109 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:workshop_shopping_app/pages/order_history_page.dart';
-import 'package:workshop_shopping_app/data/user_data.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final firestore = FirebaseFirestore.instance;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Account"),
-      ),
-      body: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          _buildProfileHeader(context, user.name, user.email, user.photoUrl),
+      appBar: AppBar(title: const Text("My Account")),
+      body: StreamBuilder(
+        stream: firestore.collection("users").doc(user?.uid).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || !snapshot.data!.exists) {
+            return const Center(child: Text("User data not found"));
+          }
 
-          const SizedBox(height: 10),
+          final userData = snapshot.data!.data() as Map<String, dynamic>;
+          final userName = userData['name'] ?? 'User';
+          final userEmail = userData['email'] ?? user?.email ?? '';
+          final photoUrl = 'https://avatar.iran.liara.run/public';
 
-          // ======== MENU LIST ========
-          Column(
+          return ListView(
+            physics: NeverScrollableScrollPhysics(),
             children: [
-              _buildMenuListItem(
-                  context,
-                  icon: Icons.person_outline,
-                  title: 'Profile Information',
-                  onTap: () {}
+              _buildProfileHeader(context, userName, userEmail, photoUrl),
+
+              const SizedBox(height: 10),
+
+              Column(
+                children: [
+                  _buildMenuListItem(
+                    context,
+                    icon: Icons.person_outline,
+                    title: 'Profile Information',
+                    onTap: () {},
+                  ),
+
+                  _buildMenuListItem(
+                    context,
+                    icon: Icons.history,
+                    title: 'Order History',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderHistoryPage(),
+                      ),
+                    ),
+                  ),
+
+                  _buildMenuListItem(
+                    context,
+                    icon: Icons.favorite_border,
+                    title: 'Favourites',
+                    onTap: () {},
+                  ),
+
+                  const Divider(),
+
+                  _buildMenuListItem(
+                    context,
+                    icon: Icons.settings_outlined,
+                    title: 'Settings',
+                    onTap: () {},
+                  ),
+                ],
               ),
 
-              _buildMenuListItem(
-                context,
-                icon: Icons.history,
-                title: 'Order History',
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => OrderHistoryPage()
-                    )
+              const SizedBox(height: 20),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  onPressed: () async {
+                    try {
+                      await FirebaseAuth.instance.signOut();
+                      debugPrint('User logged out successfully');
+                    } catch (e) {
+                      debugPrint('Logout error: $e');
+                    }
+                  },
+                  child: Text('Logout'),
                 ),
               ),
-
-              _buildMenuListItem(
-                  context,
-                  icon: Icons.favorite_border,
-                  title: 'Favourites',
-                  onTap: () {}
-              ),
-
-              const Divider(),
-
-              _buildMenuListItem(
-                context,
-                icon: Icons.settings_outlined,
-                title: 'Settings',
-                onTap: () {},
-              ),
             ],
-          ),
-
-          const SizedBox(height: 20),
-
-          // ======== LOGOUT BUTTON ========
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red
-              ),
-              onPressed: () {},
-              child: Text('Logout',),
-            ),
-          )
-        ],
+          );
+        },
       ),
     );
   }
 
-  // WIDGET: Profile Header
-  Widget _buildProfileHeader(BuildContext context, String userName, String userEmail, String photoUrl) {
+  Widget _buildProfileHeader(
+    BuildContext context,
+    String userName,
+    String userEmail,
+    String photoUrl,
+  ) {
     return Container(
       padding: const EdgeInsets.all(20.0),
       child: Row(
@@ -110,7 +136,9 @@ class AccountPage extends StatelessWidget {
                   userEmail,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Theme.of(context).colorScheme.onSurface.withAlpha(153),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withAlpha(153),
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -122,19 +150,20 @@ class AccountPage extends StatelessWidget {
     );
   }
 
-  // WIDGET: Individual Menu Item
-  Widget _buildMenuListItem(BuildContext context, {required IconData icon, required String title, required VoidCallback onTap}) {
+  Widget _buildMenuListItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
     return ListTile(
-      leading: Icon(
-          icon,
-          color: Theme.of(context).colorScheme.primary
-      ),
+      leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
 
       title: Text(title),
 
       trailing: Icon(
-          Icons.chevron_right,
-          color: Theme.of(context).colorScheme.onSurface
+        Icons.chevron_right,
+        color: Theme.of(context).colorScheme.onSurface,
       ),
       onTap: onTap,
     );

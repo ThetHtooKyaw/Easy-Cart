@@ -26,10 +26,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         ),
 
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.favorite_border),
-          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
         ],
       ),
       bottomNavigationBar: _buildAddToCartBar(context),
@@ -82,8 +79,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         ),
 
                         Text(
-                            "${widget.product.rating}",
-                            style: Theme.of(context).textTheme.bodyMedium
+                          "${widget.product.rating}",
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
 
                         const Icon(Icons.star, color: Colors.amber, size: 20),
@@ -96,8 +93,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
                     // ========== DESCRIPTION SECTION ==========
                     Text(
-                        "Product Description",
-                        style: Theme.of(context).textTheme.titleMedium
+                      "Product Description",
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
 
                     const SizedBox(height: 8),
@@ -123,11 +120,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       padding: const EdgeInsets.all(12),
       child: Row(
         children: [
-          // ========== ADD TO CART BUTTON ==========
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                // Create new item from current product
                 final newItem = Item(
                   productId: widget.product.id!,
                   productName: widget.product.name,
@@ -136,9 +131,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   quantity: quantity,
                 );
 
-                // If item already exists in cart, override the item with new quantity
-                if (cartItems.any((item) => item.productId == newItem.productId)) {
-                  final existingItemIndex = cartItems.indexWhere((item) => item.productId == newItem.productId);
+                if (cartItems.any(
+                  (item) => item.productId == newItem.productId,
+                )) {
+                  final existingItemIndex = cartItems.indexWhere(
+                    (item) => item.productId == newItem.productId,
+                  );
                   setState(() {
                     final existingItem = cartItems[existingItemIndex];
                     cartItems[existingItemIndex] = Item(
@@ -150,14 +148,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     );
                   });
 
-                  // Else, add new item into cart
                 } else {
                   setState(() {
                     cartItems.add(newItem);
                   });
                 }
 
-                // Notify user
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Product added to cart successfully!'),
@@ -176,13 +172,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
 
           QuantitySelector(
-              quantity: quantity,
-              onIncrement: () => setState(() => quantity += 1),
-              onDecrement: () => setState(() => quantity -= 1)
+            quantity: quantity,
+            onIncrement: () => setState(() => quantity += 1),
+            onDecrement: () => setState(() => quantity -= 1),
           ),
         ],
       ),
     );
   }
-
 }
