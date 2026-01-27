@@ -43,7 +43,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBMxr3fvCoQhSyswdRpI7dSc0D3gkRt3Cg',
-    appId: '1:814997966234:android:657de45cce1040614a3e23',
+    appId: '1:814997966234:android:6a4b98a1e5b7b1844a3e23',
     messagingSenderId: '814997966234',
     projectId: 'easycart-2003',
     storageBucket: 'easycart-2003.firebasestorage.app',
@@ -51,10 +51,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyC6ke_LhmnfGaHkJjVfBp7z7FO5izdGSuo',
-    appId: '1:814997966234:ios:36e393150915a2ad4a3e23',
+    appId: '1:814997966234:ios:3c11f23295dc8f9c4a3e23',
     messagingSenderId: '814997966234',
     projectId: 'easycart-2003',
     storageBucket: 'easycart-2003.firebasestorage.app',
-    iosBundleId: 'com.example.workshopShoppingApp',
+    iosBundleId: 'com.example.easycart',
   );
 }

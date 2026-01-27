@@ -1,101 +1,80 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:workshop_shopping_app/firebase_options.dart';
-import 'package:workshop_shopping_app/pages/login_page.dart';
-import 'package:workshop_shopping_app/widgets/bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:easy_cart/core/widgets/loading_column.dart';
+import 'package:easy_cart/src/account/view_models/account_view_model.dart';
+import 'package:easy_cart/src/auth/repo/auth_service.dart';
+import 'package:easy_cart/src/order/repo/order_service.dart';
+import 'package:easy_cart/src/order/view_models/order_history_view_model.dart';
+import 'package:easy_cart/src/products/repo/product_service.dart';
+import 'package:easy_cart/core/themes/app_theme.dart';
+import 'package:easy_cart/firebase_options.dart';
+import 'package:easy_cart/src/auth/view_models/login_view_model.dart';
+import 'package:easy_cart/src/auth/view_models/signup_view_model.dart';
+import 'package:easy_cart/src/auth/views/login_view.dart';
+import 'package:easy_cart/src/cart/view_models/cart_view_model.dart';
+import 'package:easy_cart/src/products/view_models/products_view_model.dart';
+import 'package:easy_cart/core/widgets/bottom_nav_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // FirebaseAuth.instance.signOut();
   // await ProductMigrationService().migrateProducts();
-  runApp(const MainApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        // Services
+        Provider(create: (_) => AuthService()),
+        Provider(create: (_) => ProductService()),
+        Provider(create: (_) => OrderService()),
+
+        // ViewModels
+        ChangeNotifierProvider<LoginViewModel>(
+          create: (context) => LoginViewModel(context.read<AuthService>()),
+        ),
+        ChangeNotifierProvider<SignUpViewModel>(
+          create: (context) => SignUpViewModel(context.read<AuthService>()),
+        ),
+        ChangeNotifierProvider<AccountViewModel>(
+          create: (context) => AccountViewModel(context.read<AuthService>()),
+        ),
+        ChangeNotifierProvider<ProductsViewModel>(
+          create: (context) =>
+              ProductsViewModel(context.read<ProductService>()),
+        ),
+        ChangeNotifierProvider<CartViewModel>(create: (_) => CartViewModel()),
+        ChangeNotifierProvider<OrderHistoryViewModel>(
+          create: (context) => OrderHistoryViewModel(
+            context.read<OrderService>(),
+            context.read<AuthService>(),
+          ),
+        ),
+      ],
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  static const Color _lightPrimary = Color(0xFF0790E8);
-  static const Color _lightSecondary = Color(0xFF96A7BD);
-  static const Color _lightTextPrimary = Color(0xFF1B263B);
-  static const Color _lightTextSecondary = Color(0xFF415A77);
-  static const Color _lightBackground = Color(0xFFF8F9FA);
-  static const Color _lightSurface = Color(0xFFFFFFFF);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: _lightBackground,
-
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          selectedItemColor: _lightPrimary,
-          unselectedItemColor: _lightSecondary,
-          backgroundColor: _lightSurface,
-          elevation: 8,
-        ),
-
-        colorScheme: const ColorScheme.light(
-          primary: _lightPrimary,
-          secondary: _lightSecondary,
-          surface: _lightSurface,
-          onSurface: _lightTextPrimary,
-          onPrimary: _lightSurface,
-        ),
-
-        appBarTheme: const AppBarTheme(
-          backgroundColor: _lightBackground,
-          foregroundColor: _lightTextPrimary,
-          elevation: 0,
-        ),
-
-        cardTheme: CardThemeData(
-          color: _lightSurface,
-          shadowColor: _lightTextPrimary.withAlpha(50),
-          elevation: 1,
-          surfaceTintColor: Colors.transparent,
-        ),
-
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: _lightPrimary,
-            foregroundColor: Colors.white,
-            textStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ),
-
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(color: _lightTextPrimary),
-          bodyMedium: TextStyle(color: _lightTextPrimary),
-          bodySmall: TextStyle(color: _lightTextSecondary),
-          titleLarge: TextStyle(
-            color: _lightTextPrimary,
-            fontWeight: FontWeight.bold,
-          ),
-          titleMedium: TextStyle(
-            color: _lightTextPrimary,
-            fontWeight: FontWeight.bold,
-          ),
-          titleSmall: TextStyle(color: _lightTextSecondary),
-        ),
-      ),
-
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.darkTheme,
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return LoadingColumn(message: 'App Loading');
           }
           if (snapshot.hasData && snapshot.data != null) {
             return const BottomNavBar();
           }
-          return const LoginPage();
+          return const LoginView();
         },
       ),
     );

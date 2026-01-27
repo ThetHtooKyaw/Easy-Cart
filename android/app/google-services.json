@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:814997966234:android:657de45cce1040614a3e23",
+        "mobilesdk_app_id": "1:814997966234:android:6a4b98a1e5b7b1844a3e23",
         "android_client_info": {
-          "package_name": "com.example.workshop_shopping_app"
+          "package_name": "com.example.easycart"
         }
       },
       "oauth_client": [],
