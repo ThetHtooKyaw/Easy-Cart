@@ -5,16 +5,20 @@ class CartViewModel extends ChangeNotifier {
   CartViewModel();
 
   // Variables
-  List<CartItem> cartItems = [];
+  final List<CartItem> _cartItems = [];
 
+  // Getters
+  List<CartItem> get cartItems => _cartItems;
+
+  // Use Cases
   void addToCart({required CartItem newItem}) {
-    if (cartItems.any((item) => item.productId == newItem.productId)) {
-      final existingItemIndex = cartItems.indexWhere(
+    if (_cartItems.any((item) => item.productId == newItem.productId)) {
+      final existingItemIndex = _cartItems.indexWhere(
         (item) => item.productId == newItem.productId,
       );
 
-      final existingItem = cartItems[existingItemIndex];
-      cartItems[existingItemIndex] = CartItem(
+      final existingItem = _cartItems[existingItemIndex];
+      _cartItems[existingItemIndex] = CartItem(
         productId: existingItem.productId,
         productName: existingItem.productName,
         imageUrl: existingItem.imageUrl,
@@ -23,13 +27,13 @@ class CartViewModel extends ChangeNotifier {
       );
       notifyListeners();
     } else {
-      cartItems.add(newItem);
+      _cartItems.add(newItem);
       notifyListeners();
     }
   }
 
   void removeFromCart({required int productIndex}) {
-    cartItems.removeAt(productIndex);
+    _cartItems.removeAt(productIndex);
     notifyListeners();
   }
 
@@ -40,8 +44,8 @@ class CartViewModel extends ChangeNotifier {
     }
 
     if (productIndex != -1) {
-      final existingItem = cartItems[productIndex];
-      cartItems[productIndex] = CartItem(
+      final existingItem = _cartItems[productIndex];
+      _cartItems[productIndex] = CartItem(
         productId: existingItem.productId,
         productName: existingItem.productName,
         imageUrl: existingItem.imageUrl,
@@ -53,7 +57,7 @@ class CartViewModel extends ChangeNotifier {
   }
 
   void clearCart() {
-    cartItems.clear();
+    _cartItems.clear();
     notifyListeners();
   }
 }

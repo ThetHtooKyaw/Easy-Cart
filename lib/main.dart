@@ -1,3 +1,4 @@
+import 'package:easy_cart/src/favourite/view_models/favourite_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,9 @@ void main() async {
               ProductsViewModel(context.read<ProductService>()),
         ),
         ChangeNotifierProvider<CartViewModel>(create: (_) => CartViewModel()),
+        ChangeNotifierProvider<FavouriteViewModel>(
+          create: (_) => FavouriteViewModel(),
+        ),
         ChangeNotifierProvider<OrderHistoryViewModel>(
           create: (context) => OrderHistoryViewModel(
             context.read<OrderService>(),

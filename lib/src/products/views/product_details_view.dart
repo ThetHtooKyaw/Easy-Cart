@@ -1,3 +1,5 @@
+import 'package:easy_cart/core/themes/app_color.dart';
+import 'package:easy_cart/src/favourite/view_models/favourite_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_cart/src/cart/models/cart_item.dart';
@@ -18,6 +20,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<FavouriteViewModel>();
+    final isFav = vm.isFavourite(productId: widget.product.id!);
+
     return Scaffold(
       // Action Buttons
       appBar: AppBar(
@@ -26,7 +31,17 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           icon: Icon(Icons.arrow_back),
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border)),
+          CircleAvatar(
+            backgroundColor: Colors.grey[300],
+            child: IconButton(
+              onPressed: () => vm.toggleFavourite(product: widget.product),
+              icon: Icon(
+                isFav ? Icons.favorite : Icons.favorite_border,
+                color: isFav ? Colors.red : AppColor.primary,
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
         ],
       ),
 

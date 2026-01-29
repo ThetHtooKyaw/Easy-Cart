@@ -1,3 +1,5 @@
+import 'package:easy_cart/core/themes/app_color.dart';
+import 'package:easy_cart/src/favourite/views/favourite_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_cart/core/widgets/loading_column.dart';
@@ -79,7 +81,10 @@ class _AccountViewState extends State<AccountView> {
                     context,
                     icon: Icons.favorite_border,
                     title: 'Favourites',
-                    onTap: () {},
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FavouriteView()),
+                    ),
                   ),
 
                   const Divider(),
@@ -123,7 +128,7 @@ class _AccountViewState extends State<AccountView> {
           CircleAvatar(
             radius: 40,
             backgroundImage: NetworkImage(photoUrl),
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: AppColor.white,
           ),
           const SizedBox(width: 20),
 
@@ -137,7 +142,7 @@ class _AccountViewState extends State<AccountView> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppColor.textPrimary,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -145,12 +150,7 @@ class _AccountViewState extends State<AccountView> {
 
                 Text(
                   userEmail,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withAlpha(153),
-                  ),
+                  style: TextStyle(fontSize: 14, color: AppColor.textPrimary),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -168,12 +168,9 @@ class _AccountViewState extends State<AccountView> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
-      title: Text(title),
-      trailing: Icon(
-        Icons.chevron_right,
-        color: Theme.of(context).colorScheme.onSurface,
-      ),
+      leading: Icon(icon, color: AppColor.primary),
+      title: Text(title, style: TextStyle(color: AppColor.textPrimary)),
+      trailing: Icon(Icons.chevron_right, color: AppColor.textPrimary),
       onTap: onTap,
     );
   }

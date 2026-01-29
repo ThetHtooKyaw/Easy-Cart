@@ -63,5 +63,6 @@ class ProductsViewModel extends ChangeNotifier {
         return product.name.toLowerCase().contains(query.toLowerCase());
       }).toList();
     }
+    notifyListeners();
   }
 }

@@ -44,7 +44,6 @@ class _ProductsViewState extends State<ProductsView> {
             prefixIcon: Icon(Icons.search),
             border: InputBorder.none,
           ),
-
           onSubmitted: (value) => vm.filterProducts(value),
         ),
       ),

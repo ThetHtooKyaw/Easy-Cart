@@ -1,3 +1,4 @@
+import 'package:easy_cart/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_cart/src/cart/models/cart_item.dart';
@@ -55,8 +56,6 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
   }
 
   Widget _buildOrderCard(AppOrder order, List<CartItem> items) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
@@ -77,7 +76,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: colorScheme.onSurface,
+                        color: AppColor.textPrimary,
                       ),
                     ),
 
@@ -87,7 +86,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                       order.createdAt.toLocal().toString().split('.')[0],
                       style: TextStyle(
                         fontSize: 12,
-                        color: colorScheme.onSurface.withAlpha(153),
+                        color: AppColor.textPrimary,
                       ),
                     ),
                   ],
@@ -128,7 +127,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: colorScheme.onSurface,
+                              color: AppColor.textPrimary,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -138,7 +137,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                             'Qty: ${items[itemIndex].quantity}',
                             style: TextStyle(
                               fontSize: 12,
-                              color: colorScheme.onSurface.withAlpha(153),
+                              color: AppColor.textPrimary,
                             ),
                           ),
                         ],
@@ -148,7 +147,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                     Text(
                       "RM ${(items[itemIndex].price * items[itemIndex].quantity).toStringAsFixed(2)}",
                       style: TextStyle(
-                        color: colorScheme.primary,
+                        color: AppColor.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -170,14 +169,14 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: colorScheme.onSurface,
+                        color: AppColor.textPrimary,
                       ),
                     ),
 
                     Text(
                       'RM ${order.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
-                        color: colorScheme.primary,
+                        color: AppColor.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -192,16 +191,16 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: colorScheme.surface,
+                color: AppColor.white,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: colorScheme.onSurface.withAlpha(26)),
+                border: Border.all(color: AppColor.textPrimary),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.location_on_outlined,
                     size: 20,
-                    color: colorScheme.onSurface.withAlpha(153),
+                    color: AppColor.textPrimary,
                   ),
 
                   const SizedBox(width: 8),
@@ -211,7 +210,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
                       order.shippingAddress,
                       style: TextStyle(
                         fontSize: 12,
-                        color: colorScheme.onSurface.withAlpha(153),
+                        color: AppColor.textPrimary,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

@@ -4,8 +4,6 @@ import 'package:easy_cart/src/cart/views/cart_view.dart';
 import 'package:easy_cart/src/home/views/home_view.dart';
 import 'package:easy_cart/src/products/views/products_view.dart';
 
-List<Widget> _pages = [HomeView(), ProductsView(), CartView(), AccountView()];
-
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
@@ -18,6 +16,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final _pages = [HomeView(), ProductsView(), CartView(), AccountView()];
+
     return Scaffold(
       body: _pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

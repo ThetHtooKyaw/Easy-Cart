@@ -1,3 +1,4 @@
+import 'package:easy_cart/core/widgets/bottom_nav_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,6 @@ import 'package:easy_cart/src/auth/view_models/params/signup_params.dart';
 import 'package:easy_cart/src/auth/view_models/signup_view_model.dart';
 import 'package:easy_cart/src/auth/views/login_view.dart';
 import 'package:easy_cart/core/widgets/loading_column.dart';
-import 'package:easy_cart/src/home/views/home_view.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -91,10 +91,14 @@ class _SignUpViewState extends State<SignUpView> {
                           ),
                         );
 
+                        await Future.delayed(Duration(milliseconds: 500));
+
                         if (vm.authError == null && mounted) {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
+                            MaterialPageRoute(
+                              builder: (context) => BottomNavBar(),
+                            ),
                           );
                         }
                       }

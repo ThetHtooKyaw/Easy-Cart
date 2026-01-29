@@ -1,3 +1,4 @@
+import 'package:easy_cart/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatelessWidget {
@@ -18,9 +19,7 @@ class QuantitySelector extends StatelessWidget {
       children: [
         IconButton(
           icon: const Icon(Icons.remove_circle_outline),
-          color: quantity > 1
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.onSurface,
+          color: quantity > 1 ? AppColor.primary : AppColor.textPrimary,
           onPressed: quantity > 1 ? onDecrement : null,
         ),
 
@@ -29,13 +28,13 @@ class QuantitySelector extends StatelessWidget {
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: AppColor.textPrimary,
           ),
         ),
 
         IconButton(
           icon: const Icon(Icons.add_circle_outline),
-          color: Theme.of(context).colorScheme.primary,
+          color: AppColor.primary,
           onPressed: onIncrement,
         ),
       ],

@@ -1,3 +1,4 @@
+import 'package:easy_cart/core/widgets/bottom_nav_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,6 @@ import 'package:easy_cart/src/auth/view_models/login_view_model.dart';
 import 'package:easy_cart/src/auth/view_models/params/login_params.dart';
 import 'package:easy_cart/src/auth/views/signup_view.dart';
 import 'package:easy_cart/core/widgets/loading_column.dart';
-import 'package:easy_cart/src/home/views/home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -82,7 +82,9 @@ class _LoginViewState extends State<LoginView> {
                         if (vm.authError == null && mounted) {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => HomeView()),
+                            MaterialPageRoute(
+                              builder: (context) => BottomNavBar(),
+                            ),
                           );
                         }
                       }
